@@ -39,11 +39,9 @@ data class Tienda(val nombre: String, val clientes: List<Clientes>)
     fun Tienda.obtenerClientesOrdenadosPorPedidos(): List<Clientes> {
         return clientes.sortedBy {it.pedidos.size}
     }
-
-
-
-
-
+    fun Tienda.obtenerClientesConPedidosSinEntregar(): Set<Clientes> {
+        return clientes.filter { it -> it.pedidos.any { !it.estaEntregado }}.toSet()
+    }
 
 }
 
