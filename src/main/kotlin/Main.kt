@@ -13,6 +13,36 @@ data class Tienda(val nombre: String, val clientes: List<Clientes>)
         return ciudades.toSet()
     }
 
+    fun Tienda.obtenerClientesPorCiudad(Ciudad:Ciudad): List<Clientes>
+    {
+        val clientesPorCiudad = mutableListOf<Clientes>()
+        clientes.forEach {if (Ciudad == it.ciudad){clientesPorCiudad.add(it)}}
+        return clientesPorCiudad
+    }
+
+    fun Tienda.checkTodosClientesSonDe(ciudad : Ciudad): Boolean {
+        return clientes.all {it.ciudad == ciudad}
+    }
+
+    fun Tienda.hayClientesDe(ciudad: Ciudad): Boolean {
+        return clientes.any {it.ciudad == ciudad}
+    }
+
+    fun Tienda.cuentaClientesDe(ciudad: Ciudad): Int {
+        return clientes.count {it.ciudad == ciudad}
+    }
+
+    fun Tienda.encuentraClienteDe(ciudad: Ciudad): Clientes? {
+        return clientes.find {it.ciudad == ciudad}
+    }
+
+    fun Tienda.obtenerClientesOrdenadosPorPedidos(): List<Clientes> {
+        return clientes.sortedBy {it.pedidos.size}
+    }
+
+
+
+
 
 
 }
