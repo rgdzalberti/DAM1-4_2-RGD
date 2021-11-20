@@ -48,7 +48,12 @@ data class Tienda(val nombre: String, val clientes: List<Clientes>)
     }
 
     fun agrupaClientesPorCiudad(): Map<Ciudad, List<Clientes>> {
-
+        val ClientesPorCiudad = mutableMapOf<Ciudad, List<Clientes>>()
+        val set = mutableSetOf<Ciudad>()
+        clientes.forEach {set.add(it.ciudad)}
+        set.forEach {ClientesPorCiudad[it]}
+        clientes.forEach {cliente -> set.forEach {if (it == cliente.ciudad) {ClientesPorCiudad[it] = clientes.filter { cliente2 -> cliente2.ciudad == it }} } }
+        return ClientesPorCiudad
     }
 
 
@@ -64,15 +69,15 @@ data class Clientes(val nombre: String, val ciudad: Ciudad, val pedidos: List<Pe
 
     fun encuentraProductoMasCaro(): Producto?
     {
-        //var juja = pedidos.filter {it.productos.find {  }}
-        //var juja = pedidos.filter {it.estaEntregado}
-        return juja
+        var ProductoPrecio =  mutableListOf<Pair<Producto,Double>>()
+        pedidos.forEach {pedido -> if (pedido.estaEntregado == true) {pedido.productos.forEach {ProductoPrecio.add(Pair(it,it.precio))}}}
+        return ProductoPrecio.find { Pair -> Pair.second == ProductoPrecio.maxOf { it.second } }?.first
     }
 
     fun dineroGastado(): Double {
-        var arrayNumeros = pedidos.flatMap {it.productos.filter}
-        //arrayNumeros.sum()
-        return arrayNumeros
+        var listaDineroGastado = mutableListOf<Double>()
+        pedidos.forEach {pedido -> pedido.productos.forEach {listaDineroGastado.add(it.precio)}}
+        return listaDineroGastado.sum()
     }
 
 
