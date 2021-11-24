@@ -36,17 +36,14 @@ data class Tienda(val nombre: String, val clientes: List<Clientes>)
     fun obtenerClientesConPedidosSinEntregar(): Set<Clientes> {
         return clientes.filter {it.pedidos.any { !it.estaEntregado }}.toSet()
     }
-
     fun obtenerProductosPedidos(): Set<Producto> {
         return clientes.flatMap {it.pedidos.flatMap {it.productos}}.toSet()
     }
-
     fun obtenerNumeroVecesProductoPedido(producto: Producto): Int {
         var NumeroVecesProductoPedido: Int = 0
         clientes.forEach {it.pedidos.forEach {it.productos.forEach {if (it==producto) {NumeroVecesProductoPedido++} } } }
         return NumeroVecesProductoPedido
     }
-
     fun agrupaClientesPorCiudad(): Map<Ciudad, List<Clientes>> {
         val ClientesPorCiudad = mutableMapOf<Ciudad, List<Clientes>>()
         val set = mutableSetOf<Ciudad>()
@@ -54,6 +51,10 @@ data class Tienda(val nombre: String, val clientes: List<Clientes>)
         set.forEach {ClientesPorCiudad[it]}
         clientes.forEach {cliente -> set.forEach {if (it == cliente.ciudad) {ClientesPorCiudad[it] = clientes.filter { cliente2 -> cliente2.ciudad == it }} } }
         return ClientesPorCiudad
+    }
+    fun obtenerProductosPedidosPorTodos(): Set<Producto>
+    {
+        return clientes.flatMap {it.pedidos.flatMap {it.productos}}.toSet()
     }
 
 
