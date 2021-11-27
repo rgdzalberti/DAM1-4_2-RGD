@@ -57,6 +57,18 @@ data class Tienda(val nombre: String, val clientes: List<Clientes>)
         return clientes.flatMap {it.pedidos.flatMap {it.productos}}.toSet()
     }
 
+    fun mapeaNombreACliente(): Map<String, Clientes>{
+        return clientes.associateBy { it.nombre }
+    }
+
+    fun mapeaClienteACiudad(): Map<Clientes, Ciudad>{
+        return clientes.associateWith { it.ciudad }
+    }
+
+    fun Tienda.mapeaNombreClienteACiudad(): Map<String, Ciudad>{
+        return clientes.associate { it.nombre to it.ciudad }
+    }
+
 
 
 }
