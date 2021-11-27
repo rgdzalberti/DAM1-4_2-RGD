@@ -65,8 +65,12 @@ data class Tienda(val nombre: String, val clientes: List<Clientes>)
         return clientes.associateWith { it.ciudad }
     }
 
-    fun Tienda.mapeaNombreClienteACiudad(): Map<String, Ciudad>{
+    fun mapeaNombreClienteACiudad(): Map<String, Ciudad>{
         return clientes.associate { it.nombre to it.ciudad }
+    }
+
+    fun obtenerClientesConMaxPedidos(): Clientes? {
+        return clientes.maxByOrNull { it.pedidos.size }
     }
 
 
@@ -91,6 +95,12 @@ data class Clientes(val nombre: String, val ciudad: Ciudad, val pedidos: List<Pe
         var listaDineroGastado = mutableListOf<Double>()
         pedidos.forEach {pedido -> pedido.productos.forEach {listaDineroGastado.add(it.precio)}}
         return listaDineroGastado.sum()
+    }
+
+    fun obtenerProductoMasCaroPedido(): Producto?{
+        var ProductoPrecio =  mutableListOf<Pair<Producto,Double>>()
+        pedidos.forEach { it.productos.forEach { ProductoPrecio.add(Pair(it,it.precio)) } }
+        return ProductoPrecio.find {it.second == ProductoPrecio.maxOf { it.second }}?.first
     }
 
 
